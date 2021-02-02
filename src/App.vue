@@ -4,7 +4,9 @@
     <b-container class="bv-example-row">
       <b-row>
         <b-col sm='6' offset='3'>
-          <QuestionBox/>
+          <QuestionBox
+            v-bind:currentQuestion="questions[index]"
+          />
         </b-col>
       </b-row>
     </b-container>
@@ -23,7 +25,8 @@ export default {
   // data 寫法
   data(){
     return{
-      questions:[] //在Chrome裝Vue devtool, 可以在F12去看vue的變數等
+      questions:[], //在Chrome裝Vue devtool, 可以在F12去看vue的變數等
+      index:0
     }
   },
   mounted :function(){
@@ -33,7 +36,7 @@ export default {
         return response.json()
         })
       .then(jsonData => {
-        this.questions = jsonData
+        this.questions = jsonData.results //jsonData回傳response_code以及results，所以要取results
       })
   }
 }

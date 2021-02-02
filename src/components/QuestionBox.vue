@@ -4,7 +4,8 @@
             <!-- <template #header>BootstrapVue</template> -->
 
             <template #lead>
-                Some question here
+                <!-- 取得question property -->
+                {{ currentQuestion.question }}
             </template>
 
             <hr class="my-4">
@@ -17,3 +18,12 @@
         </b-jumbotron>
     </div>
 </template>
+
+<script>
+export default {
+    //從parent component要傳進來的變數，要寫在這裡
+    props:{
+        currentQuestion : Object //type
+    }
+}
+</script>
