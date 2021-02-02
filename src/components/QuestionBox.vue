@@ -14,7 +14,7 @@
                 List of answers
             </p>
             <b-button variant="primary" href="#">Submit</b-button>
-            <b-button variant="success" href="#">Next</b-button>
+            <b-button v-on:click="next" variant="success" href="#">Next</b-button>
         </b-jumbotron>
     </div>
 </template>
@@ -23,7 +23,8 @@
 export default {
     //從parent component要傳進來的變數，要寫在這裡
     props:{
-        currentQuestion : Object //type
+        currentQuestion : Object, //type
+        next : Function
     }
 }
 </script>

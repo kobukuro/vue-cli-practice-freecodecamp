@@ -4,8 +4,12 @@
     <b-container class="bv-example-row">
       <b-row>
         <b-col sm='6' offset='3'>
+          <!-- 用v-if="questions.length"的用意是
+          要確保questions的長度非0，才會把變數和函數傳給QuestionBox -->
           <QuestionBox
-            v-bind:currentQuestion="questions[index]"
+            v-if="questions.length"
+              v-bind:currentQuestion="questions[index]"
+              v-bind:next="next"
           />
         </b-col>
       </b-row>
@@ -27,6 +31,13 @@ export default {
     return{
       questions:[], //在Chrome裝Vue devtool, 可以在F12去看vue的變數等
       index:0
+    }
+  },
+  methods:{
+    //可以簡寫成next(){}
+    next:function(){
+      //將index變數+1
+      this.index++
     }
   },
   mounted :function(){
