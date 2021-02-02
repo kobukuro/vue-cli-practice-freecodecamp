@@ -19,6 +19,22 @@ export default {
   components: {
     Header,
     QuestionBox
+  },
+  // data 寫法
+  data(){
+    return{
+      questions:[] //在Chrome裝Vue devtool, 可以在F12去看vue的變數等
+    }
+  },
+  mounted :function(){
+    var uri = 'https://opentdb.com/api.php?amount=10&category=27&type=multiple';
+    fetch(uri,{method:'get'})
+      .then(response => {
+        return response.json()
+        })
+      .then(jsonData => {
+        this.questions = jsonData
+      })
   }
 }
 </script>
