@@ -41,3 +41,14 @@ export default {
     }
 }
 </script>
+// 寫scoped代表這個style只會影響這個vue component，不是global的
+<style scoped>
+.list-group {
+    /* 讓每一個選項上下隔開 */
+    margin-bottom: 15px;
+}
+.btn {
+    /* 讓Submit按鈕和Next按紐左右隔開 */
+    margin: 0 5px;
+}
+</style>
