@@ -18,7 +18,7 @@
                     v-for="(answer, index) in shuffledAnswers" 
                     v-bind:key="index"
                     v-on:click.prevent="selectAnswer(index)"
-                    v-bind:class="[selectedIndex === index ? 'selected' : '']"
+                    v-bind:class="answerClass(index)"
                 >
                     {{ answer }}
                 </b-list-group-item>
@@ -40,7 +40,7 @@
 import _ from 'lodash'
 
 export default {
-    //從parent component要傳進來的變數，要寫在這裡
+    //從parent component要傳進來的變數(當作attribute)，要寫在這裡
     props:{
         currentQuestion : Object, //type
         next : Function,
@@ -97,12 +97,28 @@ export default {
             }
             this.answered = true
             this.increment(isCorrect)
+        },
+        answerClass(index) {
+            let answerClass = ''
+
+            if (!this.answered && this.selectedIndex === index) {
+                answerClass = 'selected'
+            } else if (this.answered && this.correctIndex === index) {
+                answerClass = 'correct'
+            } else if (this.answered &&
+                this.selectedIndex === index &&
+                this.correctIndex !== index
+            ) {
+                answerClass = 'incorrect'
+            }
+
+            return answerClass
         }
     }
 }
 </script>
-// 寫scoped代表這個style只會影響這個vue component，不是global的
 <style scoped>
+/* style寫scoped代表這個style只會影響這個vue component，不是global的 */
 .list-group {
     /* 讓每一個選項上下隔開 */
     margin-bottom: 15px;
