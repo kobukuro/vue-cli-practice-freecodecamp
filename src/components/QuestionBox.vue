@@ -15,7 +15,7 @@
             <!--  -->
             <b-list-group>
                 <b-list-group-item 
-                    v-for="(answer, index) in answers" 
+                    v-for="(answer, index) in shuffledAnswers" 
                     v-bind:key="index"
                     v-on:click.prevent="selectAnswer(index)"
                     v-bind:class="[selectedIndex === index ? 'selected' : '']"
@@ -24,22 +24,32 @@
                 </b-list-group-item>
             </b-list-group>
 
-            <b-button variant="primary" href="#">Submit</b-button>
+            <b-button 
+                variant="primary"
+                v-on:click="submitAnswer"
+            >
+                Submit
+            </b-button>
             <b-button v-on:click="next" variant="success" href="#">Next</b-button>
         </b-jumbotron>
     </div>
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
     //從parent component要傳進來的變數，要寫在這裡
     props:{
         currentQuestion : Object, //type
-        next : Function
+        next : Function,
+        increment: Function
     },
     data: function(){
         return{
-            selectedIndex: null
+            selectedIndex: null,
+            shuffledAnswers: [],
+            correctIndex: null,
         }
     },
     computed:{
@@ -51,9 +61,38 @@ export default {
             return answers
         }
     },
+    // watch用來監控props裡的變數有變動時觸發function
+    // 例如：currentQuestion: function(){}
+    // 代表currentQuestion這個props裡的變數的值有變動時，會觸發這個function
+    watch:{
+        currentQuestion: {
+            // 加上immediate: true，並且用handler的形式，
+            // 可以在從props收到currentQuestion時，也會run，不只是currentQuestion的值變動時
+            immediate: true,
+            handler(){
+                //清空所選的index
+                this.selectedIndex = null;
+                this.shuffleAnswers()
+            }
+            
+        }
+    },
+    //為了import shuffle function，install using command "npm i lodash"
     methods:{
         selectAnswer: function(index){
             this.selectedIndex = index;
+        },
+        shuffleAnswers:function(){
+            let answers = [...this.currentQuestion.incorrect_answers,this.currentQuestion.correct_answer];
+            this.shuffledAnswers = _.shuffle(answers);
+            this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
+        },
+        submitAnswer:function(){
+            let isCorrect = false
+            if (this.selectedIndex === this.correctIndex) {
+                isCorrect = true
+            }
+            this.increment(isCorrect)
         }
     }
 }

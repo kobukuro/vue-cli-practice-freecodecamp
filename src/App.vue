@@ -1,15 +1,19 @@
 <template>
   <div id="app">
-    <Header/>
+    <Header
+      v-bind:numCorrect="numCorrect"
+      v-bind:numTotal="numTotal"
+    />
     <b-container class="bv-example-row">
       <b-row>
         <b-col sm='6' offset='3'>
           <!-- 用v-if="questions.length"的用意是
           要確保questions的長度非0，才會把變數和函數傳給QuestionBox -->
           <QuestionBox
-            v-if="questions.length"
+              v-if="questions.length"
               v-bind:currentQuestion="questions[index]"
               v-bind:next="next"
+              v-bind:increment="increment"
           />
         </b-col>
       </b-row>
@@ -30,7 +34,9 @@ export default {
   data(){
     return{
       questions:[], //在Chrome裝Vue devtool, 可以在F12去看vue的變數等
-      index:0
+      index:0,
+      numCorrect: 0,
+      numTotal: 0
     }
   },
   methods:{
@@ -38,9 +44,16 @@ export default {
     next:function(){
       //將index變數+1
       this.index++
+    },
+    increment: function(isCorrect){
+        if (isCorrect) {
+          this.numCorrect++
+        }
+        this.numTotal++
     }
   },
   mounted :function(){
+    // https://opentdb.com/api_config.php
     let uri = 'https://opentdb.com/api.php?amount=10&category=27&type=multiple';
     fetch(uri,{method:'get'})
       .then(response => {
