@@ -41,7 +41,7 @@ export default {
     }
   },
   mounted :function(){
-    var uri = 'https://opentdb.com/api.php?amount=10&category=27&type=multiple';
+    let uri = 'https://opentdb.com/api.php?amount=10&category=27&type=multiple';
     fetch(uri,{method:'get'})
       .then(response => {
         return response.json()
