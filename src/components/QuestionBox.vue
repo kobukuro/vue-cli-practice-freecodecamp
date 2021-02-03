@@ -11,9 +11,12 @@
             <hr class="my-4">
             <!-- v-for需要v-bind:key去指定unique identifier，
             index是內建的-->
-            <p v-for="(answer, index) in answers" v-bind:key="index">
-                {{ answer }}
-            </p>
+            <!-- b-list-group為套用 Bootstrap Vue的List group layout-->
+            <b-list-group v-for="(answer, index) in answers" 
+                          v-bind:key="index">
+                <b-list-group-item>{{ answer }}</b-list-group-item>
+            </b-list-group>
+
             <b-button variant="primary" href="#">Submit</b-button>
             <b-button v-on:click="next" variant="success" href="#">Next</b-button>
         </b-jumbotron>
