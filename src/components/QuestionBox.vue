@@ -27,6 +27,7 @@
             <b-button 
                 variant="primary"
                 v-on:click="submitAnswer"
+                v-bind:disabled="selectedIndex === null || answered"
             >
                 Submit
             </b-button>
@@ -50,6 +51,7 @@ export default {
             selectedIndex: null,
             shuffledAnswers: [],
             correctIndex: null,
+            answered: false
         }
     },
     computed:{
@@ -72,6 +74,7 @@ export default {
             handler(){
                 //清空所選的index
                 this.selectedIndex = null;
+                this.answered = false
                 this.shuffleAnswers()
             }
             
@@ -92,6 +95,7 @@ export default {
             if (this.selectedIndex === this.correctIndex) {
                 isCorrect = true
             }
+            this.answered = true
             this.increment(isCorrect)
         }
     }
